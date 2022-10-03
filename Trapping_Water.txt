@@ -1,0 +1,34 @@
+function TrappingWater(arr) {
+
+  // code goes here
+  const firstMax = [0, 0];
+  for (let i = 0; i < arr.length; i++) {
+    if (firstMax[0] < arr[i]) {
+      firstMax[0] = arr[i];
+      firstMax[1] = i;
+    }
+  }
+  const secondMax = [0, 0];
+  for (let i = 0; i < arr.length; i++) {
+    if (secondMax[0] < arr[i] && firstMax[1] !== i) {
+      secondMax[0] = arr[i];
+      secondMax[1] = i;
+    }
+  }
+
+  let outSpace = 0;
+  for (let i = Math.min(firstMax[1], secondMax[1]) + 1;
+   i < Math.max(firstMax[1], secondMax[1]); i++) {
+     outSpace += arr[i];
+  }
+
+  const w =  Math.abs(firstMax[1] - secondMax[1]) - 1;
+  const h = Math.min(firstMax[0], secondMax[0]);
+  const res = w*h - outSpace;
+
+  return res;
+
+}
+
+// keep this function call here
+console.log(TrappingWater(readline()));
