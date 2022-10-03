@@ -1,34 +1,47 @@
-function TrappingWater(arr) {
+function TrappingWater(arr) { 
 
-  // code goes here
-  const firstMax = [0, 0];
+  // code goes here  
+  const firstMax = [0, 0, true];
+  const secondMax = [0, 0, false];
+  let outSpace = 0;
+  const outList = [];
+
   for (let i = 0; i < arr.length; i++) {
-    if (firstMax[0] < arr[i]) {
+    outSpace += arr[i];
+    if (firstMax[0] < arr[i] 
+    && firstMax[0] <= secondMax[0]
+    && secondMax[0] <= arr[i] && firstMax[2]
+    ) {
       firstMax[0] = arr[i];
       firstMax[1] = i;
-    }
-  }
-  const secondMax = [0, 0];
-  for (let i = 0; i < arr.length; i++) {
-    if (secondMax[0] < arr[i] && firstMax[1] !== i) {
+      outList.push((outSpace - arr[i]));
+      outSpace = 0;
+      firstMax[2] = false;
+      secondMax[2] = true;
+    } else if (secondMax[0] < arr[i]
+      && secondMax[1] <= firstMax[1]
+      && i > firstMax[1]
+      && secondMax[0] <= firstMax[0]
+      && firstMax[0] <= arr[i] && secondMax[2]
+    ) {
       secondMax[0] = arr[i];
       secondMax[1] = i;
+      outList.push((outSpace - arr[i]));
+      outSpace = 0;
+      firstMax[2] = true;
+      secondMax[2] = false;
     }
   }
 
-  let outSpace = 0;
-  for (let i = Math.min(firstMax[1], secondMax[1]) + 1;
-   i < Math.max(firstMax[1], secondMax[1]); i++) {
-     outSpace += arr[i];
-  }
+  outSpace = outList[outList.length - 1];
 
-  const w =  Math.abs(firstMax[1] - secondMax[1]) - 1;
+  const w = Math.abs(firstMax[1] - secondMax[1]) - 1;
   const h = Math.min(firstMax[0], secondMax[0]);
   const res = w*h - outSpace;
 
-  return res;
+  return res; 
 
 }
-
-// keep this function call here
+   
+// keep this function call here 
 console.log(TrappingWater(readline()));
