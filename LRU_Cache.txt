@@ -1,0 +1,19 @@
+function LRUCache(strArr) {
+
+  // code goes here
+  const tocken = 'gnyk0bdj164';
+  let str = strArr.join('');
+  strArr.some(el => {
+    const match = str.match(new RegExp(el, 'gi'));
+    if (match.length > 1) {
+      for (let i = 0; i < (match.length - 1); i++){
+        str = str.replace(new RegExp(el, 'i'), '');
+      }
+    }
+  });
+  const res = str.split('').reverse().slice(0, 5);
+  return res.join('-') + ':' + tocken;
+}
+
+// keep this function call here
+console.log(LRUCache(readline()));
